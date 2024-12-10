@@ -88,6 +88,7 @@ export const CardPaymentForm = ({
             setError("Failed to register domain and email");
           }
           setIsProcessing(false);
+          return;
         }
       }
       if (payment_succeed) {
@@ -102,6 +103,12 @@ export const CardPaymentForm = ({
           setError("Failed to register domain and email");
         }
         setIsProcessing(false);
+        return;
+      }
+      if (newerror) {
+        setError(newerror);
+        setIsProcessing(false);
+        return;
       }
     } catch (error) {
       console.error(error);
