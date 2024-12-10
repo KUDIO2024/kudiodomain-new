@@ -106,7 +106,7 @@ export const CardPaymentForm = ({
         return;
       }
       if (newerror) {
-        setError(newerror);
+        setError("Payment Failed. Please try again");
         setIsProcessing(false);
         return;
       }
