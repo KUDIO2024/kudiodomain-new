@@ -97,6 +97,7 @@ export function DomainRegistration({
           <Button
             type="submit"
             className="absolute right-2 top-[30px] !p-2 !w-[42px] !h-[42px] rounded-full"
+            style={{ marginTop: "-30px" }}
             disabled={isLoading}
           >
             <Search className="w-5 h-5" />
