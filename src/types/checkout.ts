@@ -35,4 +35,5 @@ export interface CheckoutState {
   paymentMethod: PaymentMethod | null;
   currentStep: number;
   customerId: number;
+  paymentStatus: number;
 }

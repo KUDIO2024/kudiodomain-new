@@ -9,12 +9,14 @@ interface StripeWrapperProps {
   total: number;
   state: CheckoutState;
   onCustomerId: (customerId: number) => void;
+  onPaymentStatusChange: (paymentStatus: number) => void;
 }
 
 export const StripeWrapper = ({
   total,
   state,
   onCustomerId,
+  onPaymentStatusChange,
 }: StripeWrapperProps) => {
   const [stripePromise, setStripePromise] = useState<any>(null);
   console.log(total);
@@ -34,7 +36,12 @@ export const StripeWrapper = ({
 
   return (
     <Elements stripe={stripePromise}>
-      <CardPaymentForm total={total} state={state} onCustmerId={onCustomerId} />
+      <CardPaymentForm
+        total={total}
+        state={state}
+        onCustmerId={onCustomerId}
+        onPaymentStatusChange={onPaymentStatusChange}
+      />
     </Elements>
   );
 };

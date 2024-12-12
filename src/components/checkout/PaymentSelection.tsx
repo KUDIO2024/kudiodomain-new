@@ -8,7 +8,8 @@ interface PaymentSelectionProps {
   onSelectMethod: (method: PaymentMethod) => void;
   total: number;
   state: CheckoutState;
-  onCustmerId: (customerId: number) => void;
+  onCustomerId: (customerId: number) => void;
+  onPaymentStatusChange: (paymentStatus: number) => void;
 }
 
 export function PaymentSelection({
@@ -16,7 +17,8 @@ export function PaymentSelection({
   onSelectMethod,
   total,
   state,
-  onCustmerId,
+  onCustomerId,
+  onPaymentStatusChange,
 }: PaymentSelectionProps) {
   return (
     <div className="space-y-6">
@@ -44,7 +46,8 @@ export function PaymentSelection({
           <StripeWrapper
             total={total}
             state={state}
-            onCustmerId={onCustmerId}
+            onCustomerId={onCustomerId}
+            onPaymentStatusChange={onPaymentStatusChange}
           />
         </div>
       )}

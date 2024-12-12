@@ -8,11 +8,13 @@ interface CardPaymentFromProps {
   total: number;
   state: CheckoutState;
   onCustmerId: (id: number) => void;
+  onPaymentStatusChange: (paymentStatus: number) => void;
 }
 export const CardPaymentForm = ({
   total,
   state,
   onCustmerId,
+  onPaymentStatusChange,
 }: CardPaymentFromProps) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -81,6 +83,7 @@ export const CardPaymentForm = ({
           const registerDomainResponse = await registerDomain();
           if (registerDomainResponse.response.status) {
             onCustmerId(registerDomainResponse.customerId);
+            onPaymentStatusChange(1);
             if (state.websitePackage) {
               await createFlowluClient(state);
             }
@@ -93,6 +96,7 @@ export const CardPaymentForm = ({
       }
       if (payment_succeed) {
         const registerDomainResponse = await registerDomain();
+        onPaymentStatusChange(1);
         console.log(registerDomainResponse);
         if (registerDomainResponse.response.status) {
           onCustmerId(registerDomainResponse.customerId);
@@ -108,6 +112,7 @@ export const CardPaymentForm = ({
       if (newerror) {
         setError("Payment Failed. Please try again");
         setIsProcessing(false);
+        onPaymentStatusChange(2);
         return;
       }
     } catch (error) {

@@ -16,6 +16,7 @@ interface ConfirmationProps {
   onBack: () => void;
   onConfirm: () => void;
   onCustomerId: (customerId: number) => void;
+  onPaymentStatusChange: (paymentStatus: number) => void;
 }
 
 export function Confirmation({
@@ -25,6 +26,7 @@ export function Confirmation({
   onBack,
   onConfirm,
   onCustomerId,
+  onPaymentStatusChange,
 }: ConfirmationProps) {
   const username =
     state.userDetails.firstName +
@@ -179,15 +181,47 @@ export function Confirmation({
           />
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <PaymentSelection
-            selectedMethod={state.paymentMethod}
-            onSelectMethod={onSelectPaymentMethod}
-            total={calculateTotal()}
-            state={state}
-            onCustomerId={onCustomerId}
-          />
-        </div>
+        {state.paymentStatus == 0 && (
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <PaymentSelection
+              selectedMethod={state.paymentMethod}
+              onSelectMethod={onSelectPaymentMethod}
+              total={calculateTotal()}
+              state={state}
+              onCustomerId={onCustomerId}
+              onPaymentStatusChange={onPaymentStatusChange}
+            />
+          </div>
+        )}
+
+        {state.paymentStatus == 1 && (
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 flex flex-col items-center">
+            <div className="flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full text-2xl font-bold mb-4">
+              ✓
+            </div>
+            <p className="text-lg font-medium text-gray-800 leading-relaxed text-center">
+              Thank you, your order has been received. Please keep an eye out
+              for your emails — you can now close this window.
+            </p>
+          </div>
+        )}
+
+        {state.paymentStatus == 2 && (
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 h-48 flex flex-col justify-center items-center">
+            <div className="flex items-center justify-center w-12 h-12 bg-red-100 text-red-600 rounded-full text-2xl font-bold mb-4">
+              X
+            </div>
+            <p className="text-lg font-medium text-gray-800 leading-relaxed mb-4">
+              Payment Declined
+            </p>
+            <button
+              onClick={() => onPaymentStatusChange(0)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-red-700 transition"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
 
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-semibold mb-4">Account Details</h3>
